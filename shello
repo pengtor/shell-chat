@@ -1,0 +1,19 @@
+#include <iostream> // std::cin , std::cout
+#include <string>
+#include <unistd.h> // for close
+#include <thread>
+#include <sys/socket.h> // for socket, bind, setsockopt...
+#include <netinet/in.h>
+#include <arpa/inet.h> // convert the ip to binary
+
+int main() {
+
+// st.1 creating the udp socket
+
+int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+if (sockfd < 0) {
+std::cerr << "socket was not created";
+return 1;
+}
+
+
