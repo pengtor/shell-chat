@@ -1,5 +1,5 @@
 ## Description
--A terminal based UDP multicast chat application written in C++. Built as a first C++ networking project to learn socket programming, UDP, and multithreading from the ground up.
+- A terminal based UDP multicast chat application written in C++. Built as a first C++ networking project to learn socket programming, UDP, and multithreading from the ground up.
 
 ## Background
 - Every instance of shello running on the same local network automatically joins a multicast group.
