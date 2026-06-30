@@ -85,18 +85,9 @@ if (setsockopt(sockfd, IPPROTO_IP, IP_ADD_MEMBERSHIP, &multicast_request, sizeof
 }
 
 std::cout << "joined multicast group\n" << multicast_ip << "\n";
-
-// receive loop placeholder
-char buffer[1024];
-struct sockaddr_in sender_addr{};
-socklen_t addr_len = sizeof(sender_addr);
-
-ssize_t bytes_received = recvfrom(sockfd, buffer,sizeof(buffer) - 1, 0, (struct sockaddr*)&sender_addr, &addr_len);
-
-if (bytes_received > 0) {
-    buffer[bytes_received] = '\0';
-    std::cout << "data received: " << buffer << "\n";
-}
+std::thread receiver(receivemess, sockfd);
+sendmess(sockfd); // block forever.
+receiver.join();
 
 setsockopt(sockfd, IPPROTO_IP, IP_DROP_MEMBERSHIP, &multicast_request, sizeof(multicast_request));
 close(sockfd);
