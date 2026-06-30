@@ -3,9 +3,9 @@
 #include <cstring>
 #include <unistd.h> 
 #include <thread>
-#include <sys/socket.h> // for socket, bind, setsockopt...
+#include <sys/socket.h> 
 #include <netinet/in.h>
-#include <arpa/inet.h> // convert the ip to binary
+#include <arpa/inet.h> 
 
 
 const char* multicast_ip = "239.0.0.1";
