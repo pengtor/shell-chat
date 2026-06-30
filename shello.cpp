@@ -7,14 +7,38 @@
 #include <netinet/in.h>
 #include <arpa/inet.h> // convert the ip to binary
 
-// listening func + printing it out.
-void listeningforthread(std::string userInput) {
-    std::cout << "Type your message: ";
-    std::getline(std::cin, userInput); // listens
-    std::cout << " ' " << userInput << " ' \n" << "Waiting for someone to respond... \n" << std::endl;
-}
 
 const char* multicast_ip = "239.0.0.1";
+
+void receivemess(int sockfd) {
+    char buffer[1204];
+    struct sockaddr_in sender_addr{};
+    socklent_t addr_len = sizeof(sender_addr);
+
+    while (true) {
+        ssize_t bytes_received = recvfrom(sockfd, buffer, sizeof(buffer) - 1, 0, (struct sockaddr*)&sender_addr, &addr_len);
+
+        if (bytes_received > 0) {
+            buffer[bytes_received] = '\0';
+            std::cout << "\n received: " << buffer << "\n";
+        }
+    }
+}
+
+void sendmess(int sockfd)  {
+    struct sockaddr_in dest_addr{};
+    std::memset (&dest_addr, 0, sizeof(dest_addr));
+    dest_addr.sin_family = AF_INET;
+    dest_addr.sin_port = htons(9999);
+    inet_pton(AF_INET, multicast_ip, &dest_addr.sin_addr.s_addr);
+
+    std::string userInput;
+
+    while (true) {
+        std::getline(std::cin, userInput);
+        sendto(sockfd, userInput.c_str(), userInput.size(), 0, (struct sockaddr*)&dest_addr,sizeof(dest_addr));
+    }
+}
 int main() {
 
 // st.1 creating the udp socket
