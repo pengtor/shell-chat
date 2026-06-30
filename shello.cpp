@@ -13,7 +13,7 @@ const char* multicast_ip = "239.0.0.1";
 void receivemess(int sockfd) {
     char buffer[1204];
     struct sockaddr_in sender_addr{};
-    socklent_t addr_len = sizeof(sender_addr);
+    socklen_t addr_len = sizeof(sender_addr);
 
     while (true) {
         ssize_t bytes_received = recvfrom(sockfd, buffer, sizeof(buffer) - 1, 0, (struct sockaddr*)&sender_addr, &addr_len);
